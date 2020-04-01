@@ -114,3 +114,7 @@ class UserAgentDownloaderMiddleware(object):
     def process_request(self, request, spider):
         user_agent = random.choice(self.USER_AGENTS)
         request.headers['User-Agent'] = user_agent
+
+
+class IPProxyDownloaderMiddleware(object):
+    pass
