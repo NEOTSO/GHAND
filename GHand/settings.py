@@ -69,6 +69,10 @@ ITEM_PIPELINES = {
    'GHand.pipelines.GhandPipeline': 300,
 }
 
+# IMAGES_STORE = 
+
+
+
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
 #AUTOTHROTTLE_ENABLED = True

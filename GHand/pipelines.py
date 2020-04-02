@@ -11,6 +11,7 @@
 #         return item
 
 from scrapy.exporters import JsonLinesItemExporter
+from scrapy.pipelines.images import ImagesPipeline
 
 class GhandPipeline(object):
     def open_spider(self, spider):
@@ -33,3 +34,17 @@ class GhandPipeline(object):
         self.exporter.finish_exporting()
         self.fp.close()
         print('爬虫结束了...')
+
+
+class GhandImagesPipeline(ImagesPipeline):
+    def get_media_requests(self, item, info):
+        request_objs = super(GhandImagesPipeline, self),get_media_requests(item, info)
+        console.log('item:------')
+        console.log(item)
+        for request_obj in request_objs:
+            request_obj.item = item
+        return request_objs
+
+    def file_path(self, request, response=None, info=None):
+        path = super(GhandImagesPipeline, self).file_path(request, response, info)
+        
