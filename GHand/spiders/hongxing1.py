@@ -16,7 +16,7 @@ class Hongxing1Spider(CrawlSpider):
     )
 
     def filterStr(self, str):
-        filtered = str.replace('\r', '').replace('\n', '').replace('\t', '').replace('<div class=\"nr_two_ad clearfix\"><div class=\"nr_two_ad1 fl\"><script src=\"/d/js/acmsd/thea9.js\"></script></div><div style=\"nr_two_ad2 fr\"><script src=\"/d/js/acmsd/thea10.js\"></script></div></div>', '').replace('<script src=\"/d/js/acmsd/thea9.js\"></script>', '')
+        filtered = str.replace(' ', '').replace('\r', '').replace('\n', '').replace('\t', '').replace('<div class=\"nr_two_ad clearfix\"><div class=\"nr_two_ad1 fl\"><script src=\"/d/js/acmsd/thea9.js\"></script></div><div style=\"nr_two_ad2 fr\"><script src=\"/d/js/acmsd/thea10.js\"></script></div></div>', '').replace('<script src=\"/d/js/acmsd/thea9.js\"></script>', '')
         # filtered = re.sub(r'(?i)<(?!img|/img).*?>', '', filtered)
         filtered = re.sub(r'<[^<]+?>', '', filtered)
         filtered = filtered.replace('本文admin转自网络，由红星军事网(http://www.hongxing1.com/)整理编辑，版权归原作者所有。', '').replace('本文hongxing转自网络，由红星军事网(http://www.hongxing1.com/)整理编辑，版权归原作者所有。', '') .replace('红星军事网(http://www.hongxing1.com/)整理编辑，版权归原作者所有。', '')
@@ -30,5 +30,8 @@ class Hongxing1Spider(CrawlSpider):
         title = response.xpath('//div[@class="article"]/h1/text()').get()
         date = response.xpath('//div[@class="article"]/div[@class="wzxx"]/span/text()').get()
         content = self.filterStr(response.xpath('//div[@id="news"]').get())
-        images = response.xpath('//div[@id="news"]/img/@src').extract()
-        yield GhandItem(id=id, title=title, date=date, content=content, images=images)
+        print('#'*80)
+        print(content)
+        image_urls = response.xpath('//div[@id="news"]//img/@src').extract()
+        images = [str(id) + '-' + str(x) for x in range(0, len(image_urls))]
+        yield GhandItem(id=id, title=title, date=date, content=content, image_urls=image_urls, images=images)

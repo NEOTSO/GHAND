@@ -9,6 +9,8 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
+import os
+
 BOT_NAME = 'GHand'
 
 SPIDER_MODULES = ['GHand.spiders']
@@ -66,11 +68,12 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'GHand.pipelines.GhandPipeline': 300,
+   'GHand.pipelines.GhandImagesPipeline': 300,
 }
 
-# IMAGES_STORE = 
-
+IMAGES_STORE = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'downloads', 'images')
+print('store')
+print(IMAGES_STORE)
 
 
 # Enable and configure the AutoThrottle extension (disabled by default)

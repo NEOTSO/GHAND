@@ -12,6 +12,9 @@
 
 from scrapy.exporters import JsonLinesItemExporter
 from scrapy.pipelines.images import ImagesPipeline
+from scrapy.exceptions import DropItem
+from scrapy.settings import Settings
+from scrapy import Request
 
 class GhandPipeline(object):
     def open_spider(self, spider):
@@ -38,13 +41,24 @@ class GhandPipeline(object):
 
 class GhandImagesPipeline(ImagesPipeline):
     def get_media_requests(self, item, info):
-        request_objs = super(GhandImagesPipeline, self),get_media_requests(item, info)
-        console.log('item:------')
-        console.log(item)
-        for request_obj in request_objs:
-            request_obj.item = item
-        return request_objs
+        print('piping....')
+        print(item)
+        for image_url in item['image_urls']:
+            yield Request(image_url)
+        # request_objs = super(GhandImagesPipeline, self).get_media_requests(item, info)
+        # print('item:------')
+        # print(item)
+        # for request_obj in request_objs:
+        #     request_obj.item = item
+        # return request_objs
 
-    def file_path(self, request, response=None, info=None):
-        path = super(GhandImagesPipeline, self).file_path(request, response, info)
-        
+    # def file_path(self, request, response=None, info=None):
+    #     path = super(GhandImagesPipeline, self).file_path(request, response, info)
+    #     print('xxxx')
+    #     print(request.item)
+    #     return path
+
+    def item_completed(self, results, item, info):
+        image_paths=[x['path'] for ok,x in results if ok]
+        if not image_paths:
+            raise DropItem('图片未下载好 %s'%image_paths)
