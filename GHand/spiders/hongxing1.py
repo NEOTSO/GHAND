@@ -30,8 +30,6 @@ class Hongxing1Spider(CrawlSpider):
         title = response.xpath('//div[@class="article"]/h1/text()').get()
         date = response.xpath('//div[@class="article"]/div[@class="wzxx"]/span/text()').get()
         content = self.filterStr(response.xpath('//div[@id="news"]').get())
-        print('#'*80)
-        print(content)
         image_urls = response.xpath('//div[@id="news"]//img/@src').extract()
-        images = [str(id) + '-' + str(x) for x in range(0, len(image_urls))]
+        images = [str(id) + '-' + str(index) + '.' + image_urls[index].split('.')[-1] for index in range(len(image_urls))]
         yield GhandItem(id=id, title=title, date=date, content=content, image_urls=image_urls, images=images)

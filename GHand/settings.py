@@ -98,3 +98,5 @@ print(IMAGES_STORE)
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
 LOG_LEVEL = 'WARNING'
+
+FEED_EXPORT_ENCODING = 'UTF8'
