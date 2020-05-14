@@ -16,3 +16,10 @@ class GhandItem(scrapy.Item):
     image_urls = scrapy.Field()
     images = scrapy.Field()
     pass
+
+class SvipmhItem(scrapy.Item):
+    # define the fields for your item here like:
+    # id = scrapy.Field()
+    title = scrapy.Field()
+    images = scrapy.Field()
+    pass

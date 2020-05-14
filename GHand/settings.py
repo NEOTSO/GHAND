@@ -68,12 +68,12 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'GHand.pipelines.GhandImagesPipeline': 300,
+    # 'GHand.pipelines.GhandImagesPipeline': 300,
+    'GHand.pipelines.SvipmhPipeline': 300,
 }
 
-IMAGES_STORE = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'downloads', 'images')
-print('store')
-print(IMAGES_STORE)
+IMAGES_STORE = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'downloads')
+# IMAGES_STORE = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'downloads', 'images')
 
 
 # Enable and configure the AutoThrottle extension (disabled by default)

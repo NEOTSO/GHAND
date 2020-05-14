@@ -92,3 +92,31 @@ class GhandImagesPipeline(ImagesPipeline):
     #     image_paths=[x['path'] for ok,x in results if ok]
     #     if not image_paths:
     #         raise DropItem('图片未下载好 %s'%image_paths)
+
+class SvipmhPipeline(ImagesPipeline):
+    def get_media_requests(self, item, info):
+        print('/'*80)
+        request_objs = super(SvipmhPipeline, self).get_media_requests(item, info)
+        print(request_objs)
+        for request_obj in request_objs:
+            request_obj.item = item
+            print('ccccc')
+            print(item)
+        return request_objs
+
+    def file_path(self, request, response=None, info=None):
+        # path = super(SvipmhPipeline, self).file_path(request, response, info)
+        print('?'*80)
+        # print(path)
+        # print(request.url)
+        # print(request.item.get('images'))
+        # print(request.item.get('image_urls').index(request.url))
+        index = request.item.get('images').index(request.url)
+        print(index)
+        images_store = IMAGES_STORE
+        chapter_path = os.path.join(images_store, request.item.get('title'))
+        if not os.path.exists(chapter_path):
+            os.makedirs(chapter_path)
+        ext = request.url.split('.')[-1]
+        image_path = os.path.join(chapter_path, index + 1, ext)
+        return image_path
