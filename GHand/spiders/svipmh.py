@@ -19,11 +19,10 @@ class SvipmhSpider(CrawlSpider):
     def parse_item(self, response):
         # id = response.request.url.split('/')[-1].split('.')[0]
         title = response.xpath('//p[@class="view-fix-top-bar-title"]/text()').get()
-        # print('#'*80)
-        # print(title)
-        images = response.xpath('//div[@id="cp_img"]/img/@data-original').extract()
-        # print(images)
+        print('#'*80)
+        print(title)
+        image_urls = response.xpath('//div[@id="cp_img"]/img/@data-original').extract()
         next = response.xpath('//ul[@class="view-bottom-bar"]/li[last()]/a/@href').get()
         if (next != 'javascript:void(0)'):
             scrapy.Request(self.domain + next, callback=self.parse_item)
-        yield SvipmhItem(title=title, images=images)
+        yield SvipmhItem(title=title, image_urls=image_urls)

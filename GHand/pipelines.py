@@ -100,23 +100,19 @@ class SvipmhPipeline(ImagesPipeline):
         print(request_objs)
         for request_obj in request_objs:
             request_obj.item = item
-            print('ccccc')
-            print(item)
         return request_objs
 
     def file_path(self, request, response=None, info=None):
         # path = super(SvipmhPipeline, self).file_path(request, response, info)
-        print('?'*80)
-        # print(path)
-        # print(request.url)
-        # print(request.item.get('images'))
-        # print(request.item.get('image_urls').index(request.url))
-        index = request.item.get('images').index(request.url)
-        print(index)
-        images_store = IMAGES_STORE
-        chapter_path = os.path.join(images_store, request.item.get('title'))
-        if not os.path.exists(chapter_path):
-            os.makedirs(chapter_path)
-        ext = request.url.split('.')[-1]
-        image_path = os.path.join(chapter_path, index + 1, ext)
+        try:
+            index = request.item.get('image_urls').index(request.url)
+            images_store = IMAGES_STORE
+            chapter_path = request.item.get('title')
+            if not os.path.exists(chapter_path):
+                os.makedirs(chapter_path)
+            ext = request.url.split('.')[-1]
+            image_path = os.path.join(chapter_path, str(index + 1) + '.' + ext)
+            print(image_path)
+        except Exception as e:
+            print(e)
         return image_path
