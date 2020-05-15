@@ -9,20 +9,28 @@ class SvipmhSpider(CrawlSpider):
     name = 'svipmh'
     domain = 'https://m.svipmh.com'
     allowed_domains = ['m.svipmh.com']
-    start_urls = ['https://m.svipmh.com/view/24220']
-    # start_urls = ['https://m.svipmh.com/comic/621']
+    start_urls = ['https://m.svipmh.com/comic/622']
+    comic_name = ''
 
     rules = (
+        Rule(LinkExtractor(allow=r'.+/comic/\d*'), callback='parse', follow=True),
         Rule(LinkExtractor(allow=r'.+/view/\d*'), callback='parse_item', follow=True),
     )
 
+    def parse(self, response):
+        print('7777')
+        try:
+            self.comic_name = response.xpath('//p[@class="detail-main-info-title"]/text()').get()
+            charpter_urls = response.xpath('//ul[@id="detail-list-select"]/li/a/@href').extract()
+            for charpter_url in charpter_urls:
+                print(self.domain + charpter_url)
+                yield scrapy.Request(self.domain + charpter_url, callback=self.parse_item)
+        except Exception as e:
+            print(e)
+
     def parse_item(self, response):
-        # id = response.request.url.split('/')[-1].split('.')[0]
         title = response.xpath('//p[@class="view-fix-top-bar-title"]/text()').get()
         print('#'*80)
         print(title)
         image_urls = response.xpath('//div[@id="cp_img"]/img/@data-original').extract()
-        next = response.xpath('//ul[@class="view-bottom-bar"]/li[last()]/a/@href').get()
-        if (next != 'javascript:void(0)'):
-            scrapy.Request(self.domain + next, callback=self.parse_item)
-        yield SvipmhItem(title=title, image_urls=image_urls)
+        yield SvipmhItem(name=self.comic_name, title=title, image_urls=image_urls)

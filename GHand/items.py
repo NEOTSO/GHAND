@@ -19,7 +19,7 @@ class GhandItem(scrapy.Item):
 
 class SvipmhItem(scrapy.Item):
     # define the fields for your item here like:
-    # id = scrapy.Field()
+    name = scrapy.Field()
     title = scrapy.Field()
     image_urls = scrapy.Field()
     pass
