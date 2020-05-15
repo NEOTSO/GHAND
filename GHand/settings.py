@@ -69,7 +69,7 @@ DOWNLOADER_MIDDLEWARES = {
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     # 'GHand.pipelines.GhandImagesPipeline': 300,
-    'GHand.pipelines.SvipmhPipeline': 300,
+    'GHand.pipelines.SvipmhPipeline': 100,
 }
 
 IMAGES_STORE = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'downloads')

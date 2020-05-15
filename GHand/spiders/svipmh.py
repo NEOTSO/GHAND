@@ -9,7 +9,7 @@ class SvipmhSpider(CrawlSpider):
     name = 'svipmh'
     domain = 'https://m.svipmh.com'
     allowed_domains = ['m.svipmh.com']
-    start_urls = ['https://m.svipmh.com/comic/622']
+    start_urls = ['https://m.svipmh.com/comic/511']
     comic_name = ''
 
     rules = (
